@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user-service
+    datasource:
+      url: jdbc:mysql://localhost:3306/live_batch
+      username: root
+      password: Smartb0y
+logging:
+  level:
+    org.springframework.aop: DEBUG
+    com.example: DEBUG
