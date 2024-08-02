@@ -2,8 +2,10 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.entity.Users;
+import com.example.userservice.exceptions.UserNotFoundException;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +39,16 @@ public class UserController {
     public ResponseEntity<UserDTO>  createUser(@Valid @RequestBody UserDTO userDTO) {
         UserDTO savedUser = userService.saveUser(userDTO);
         return ResponseEntity.ok(savedUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String>  deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("User deleted successfully.");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while deleting the user.");
+        }
     }
 }

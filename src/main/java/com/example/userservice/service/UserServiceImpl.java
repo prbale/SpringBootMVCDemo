@@ -2,6 +2,7 @@ package com.example.userservice.service;
 
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.entity.Users;
+import com.example.userservice.exceptions.UserNotFoundException;
 import com.example.userservice.mapper.UserMapper;
 import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException("User not found with id: " + userId);
+        }
         userRepository.deleteById(userId);
     }
 
